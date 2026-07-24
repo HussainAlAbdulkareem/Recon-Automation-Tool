@@ -2,6 +2,7 @@ import typer
 from recon.subdomains import find_subdomains
 from recon.probe import probe_hosts
 from recon.portscan import scan_ports
+from recon.report import build_report
 
 def scan(domain: str):
     print(f"[*] Enumerating subdomains for {domain}...")
@@ -14,6 +15,9 @@ def scan(domain: str):
     
     print("[*] Port scanning live hosts...")
     live = scan_ports(live)
+    
+    report_path = build_report(domain, live)
+    print(f"\n[+] Report written to {report_path}")
 
     for host in live:
         tech = ", ".join(host["tech"]) if host["tech"] else "-"
