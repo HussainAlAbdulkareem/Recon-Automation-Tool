@@ -3,6 +3,7 @@ from recon.subdomains import find_subdomains
 from recon.probe import probe_hosts
 from recon.portscan import scan_ports
 from recon.report import build_report
+from recon.screenshot import capture_screenshots
 
 def scan(domain: str):
     print(f"[*] Enumerating subdomains for {domain}...")
@@ -15,6 +16,10 @@ def scan(domain: str):
     
     print("[*] Port scanning live hosts...")
     live = scan_ports(live)
+    
+    print("[*] Capturing screenshots...")
+    live = capture_screenshots(live)
+    print("[+] Screenshots done\n")
     
     report_path = build_report(domain, live)
     print(f"\n[+] Report written to {report_path}")

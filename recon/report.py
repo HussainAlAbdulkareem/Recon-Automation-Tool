@@ -21,19 +21,34 @@ TEMPLATE = """<!DOCTYPE html>
   .status-404, .status-403 { color: #f85149; }
   .tech { color: #7d8590; font-size: 12px; }
   .ports { font-family: monospace; color: #79c0ff; font-size: 13px; }
+  img { display: block; width: 180px; border: 1px solid #21262d; border-radius: 6px; }
 </style>
 </head>
 <body>
   <h1>Recon Report</h1>
   <div class="meta">
-    Target: <strong>{{ domain }}</strong> &nbsp;•&nbsp;
-    {{ hosts|length }} live hosts &nbsp;•&nbsp;
+    Target: <strong>{{ domain }}</strong> &nbsp;&bull;&nbsp;
+    {{ hosts|length }} live hosts &nbsp;&bull;&nbsp;
     Generated {{ timestamp }}
   </div>
   <table>
-    <tr><th>URL</th><th>Status</th><th>Title</th><th>Tech</th><th>Open Ports</th></tr>
+    <tr>
+      <th>Screenshot</th>
+      <th>URL</th>
+      <th>Status</th>
+      <th>Title</th>
+      <th>Tech</th>
+      <th>Open Ports</th>
+    </tr>
     {% for h in hosts %}
     <tr>
+      <td>
+        {% if h.screenshot %}
+          <img src="../{{ h.screenshot }}" alt="screenshot of {{ h.url }}">
+        {% else %}
+          <span class="tech">no capture</span>
+        {% endif %}
+      </td>
       <td class="url">{{ h.url }}</td>
       <td class="status-{{ h.status }}">{{ h.status }}</td>
       <td>{{ h.title }}</td>
@@ -45,6 +60,7 @@ TEMPLATE = """<!DOCTYPE html>
 </body>
 </html>"""
 
+
 def build_report(domain: str, hosts: list[dict]) -> str:
     html = Template(TEMPLATE).render(
         domain=domain,
@@ -53,6 +69,7 @@ def build_report(domain: str, hosts: list[dict]) -> str:
     )
     out_dir = Path("reports")
     out_dir.mkdir(exist_ok=True)
-    out_file = out_dir / f"{domain}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
+    safe_name = "".join(c if c.isalnum() or c in "-." else "_" for c in domain)
+    out_file = out_dir / f"{safe_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
     out_file.write_text(html)
     return str(out_file)

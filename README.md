@@ -33,8 +33,8 @@ Subdomain enumeration and host probing are passive. **Port scanning is active an
 
 ## Install
 
-    git clone https://github.com/yourname/recon-tool.git
-    cd recon-tool
+    git clone https://github.com/HussainAlAbdulkareem/Recon-Automation-Tool.git
+    cd Recon-Automation-Tool
     python3 -m venv venv && source venv/bin/activate
     pip install -r requirements.txt
 
