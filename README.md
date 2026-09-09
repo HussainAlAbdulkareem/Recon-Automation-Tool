@@ -1,6 +1,6 @@
 # Recon Automation Tool
 
-A Python CLI that chains subdomain enumeration, live-host probing, port scanning, and screenshotting into a single automated reconnaissance workflow. Point it at a domain, walk away, get a clean HTML report.
+A Python CLI that chains subdomain enumeration, live-host probing, port scanning, and screenshotting into a single automated reconnaissance workflow. Point it at a domain, walk away, and get a clean HTML report.
 
 ![Recon report output](assets/report.png)
 
